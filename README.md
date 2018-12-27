@@ -1,7 +1,6 @@
 # alien_invasion
-An Arcade game built just for practicing Python3 and the PyGame Library. You can find more information in the wiki section.
-
-Trying the PyGame Python Library. The game presented here was based on the project suggested in the "Python Crash Course Book". I tried to modify and make it look like some sort of a Star Wars Version of the old Space Invaders game. 
+First time trying the PyGame Python Library. The game presented here was based on a project suggested in the "Python Crash Course Book". 
+I tried to modify it in order to make it look like some sort of a Star Wars Version of the old Space Invaders game. 
 
 ![](https://i.ibb.co/vwtyDCC/game-appearance.png)
 
