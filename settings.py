@@ -9,7 +9,7 @@ class Settings():
         # If you don't want an image as your game's background, you can assign a rgb combination to it
         #self.bg_color = (230, 230, 230)
         # Load background image
-        self.bg_image = pygame.image.load("C:\\Users\\andre.dias\\OneDrive\\Programming\\Python\\AlienInvasion\\bgstar.bmp")
+        self.bg_image = pygame.image.load("bgstar.bmp")
         # Rebellion Ship speed factor i.e number of pixels shifted by the ship along the screen
         self.ship_speed_factor = 5
         # Blasts info
