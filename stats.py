@@ -11,3 +11,7 @@ class GameStats():
         self.ships_left = self.ai_settings.ship_limit
         # Start Alien Invasion in an active state.
         self.game_active = False
+        # Score
+        self.score = 0
+        # Level
+        self.game_lvl = 1

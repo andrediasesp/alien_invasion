@@ -23,7 +23,7 @@ def keyup_events(event,ship):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def check_events(ai_settings, screen, ship, bullets,stats,play_button,fleet):
+def check_events(ai_settings, screen, ship, bullets,stats,play_button,fleet,sb):
     """ Watch for keyboard and mouse events """
     for event in pygame.event.get():
         # When trying to exit the game's window, a QUIT type event is detected by pygame
@@ -35,14 +35,19 @@ def check_events(ai_settings, screen, ship, bullets,stats,play_button,fleet):
             keyup_events(event,ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(stats, play_button, mouse_x, mouse_y,ai_settings, screen, ship, fleet,bullets)
+            check_play_button(stats, play_button, mouse_x, mouse_y,ai_settings, screen, ship, fleet,bullets,sb)
 
-def check_play_button(stats, play_button, mouse_x, mouse_y,ai_settings, screen, ship, fleet,bullets):
+def check_play_button(stats, play_button, mouse_x, mouse_y,ai_settings, screen, ship, fleet,bullets,sb):
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
+        # Reset Game Settings
+        ai_settings.dynamic_settings()
         pygame.mouse.set_visible(False)
         stats.reset_stats()
         stats.game_active = True
+        # Reset Level and Score
+        sb.prep_score()
+        sb.prep_level()
         # Empty Groups
         fleet.empty()
         bullets.empty()
@@ -50,7 +55,7 @@ def check_play_button(stats, play_button, mouse_x, mouse_y,ai_settings, screen, 
         create_fleet(ai_settings,screen,fleet,ship)
         ship.center_ship()
 
-def refresh_screen(ai_settings,screen,ship,fleet,bullets,play_button,stats):
+def refresh_screen(ai_settings,screen,ship,fleet,bullets,play_button,stats,sb):
     """Redraw the screen during each pass through the loop - With bg color or with a bg image"""
     # screen.fill(ai_settings.bg_color)
     screen.blit(ai_settings.bg_image, (0,0))
@@ -61,13 +66,15 @@ def refresh_screen(ai_settings,screen,ship,fleet,bullets,play_button,stats):
     ship.blitme()
     # Draw Empire Fleet
     fleet.draw(screen)
+    # Draw the score information.
+    sb.show_score()
     # Set Button if game inactive
     if not stats.game_active:
         play_button.draw_button()
     # Make the most recently drawn screen visible.
     pygame.display.flip()
 
-def update_bullets(ai_settings,screen,ship,bullets,fleet):
+def update_bullets(ai_settings,screen,ship,bullets,fleet,stats,sb):
     """ Update bullets """
     # Update bullet positions.
     bullets.update()
@@ -76,14 +83,23 @@ def update_bullets(ai_settings,screen,ship,bullets,fleet):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     # Check for any bullets that have hit aliens
-    check_canon_collision(ai_settings,screen,fleet,ship,bullets)
+    check_canon_collision(ai_settings,screen,fleet,ship,bullets,stats,sb)
 
-def check_canon_collision(ai_settings,screen,fleet,ship,bullets):
+def check_canon_collision(ai_settings,screen,fleet,ship,bullets,stats,sb):
     # groupcollide(group1, group2, dokill1, dokill2, collided = None) -> Sprite_dict
     collisions = pygame.sprite.groupcollide(bullets, fleet, True, True)
+    if collisions:
+        for e_ship in collisions.values():
+            stats.score += ai_settings.scoring_points * len(e_ship)
+            sb.prep_score()
     # If there's no empire ships, create a new one
     if len(fleet) == 0:
         bullets.empty()
+        ai_settings.increase_gamespeed()
+        # Increase game Level
+        stats.game_lvl += 1
+        sb.prep_level()
+        # Create a new empire fleet
         create_fleet(ai_settings,screen,fleet,ship)
 
 def fire_canon(ai_settings,screen,ship,bullets):

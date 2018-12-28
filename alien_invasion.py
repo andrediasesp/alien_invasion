@@ -5,6 +5,7 @@ from ship import Ship
 from pygame.sprite import Group
 from stats import GameStats
 from playbutton import Button
+from scoring import Scoreboard
 
 def run_game():
     # Initialize game and create a screen object.
@@ -15,9 +16,10 @@ def run_game():
     # Set game window caption
     pygame.display.set_caption("Alien Invasion - Star Wars Edition")
     # Play Button
-    play_button = Button(ai_settings, screen, "Play")
+    play_button = Button(ai_settings, screen, "Play Star Wars")
     # Initilize Game Stats for every Player
     stats = GameStats(ai_settings)
+    sb = Scoreboard(ai_settings, screen, stats)
     # Initialize Game's Ship
     ship = Ship(ai_settings,screen)
     # Store ship bullets
@@ -29,16 +31,16 @@ def run_game():
     # Start the main loop for the game - User actions control the flow of the game
     while True:
         # Check Events
-        af.check_events(ai_settings, screen, ship, bullets,stats,play_button,fleet)
+        af.check_events(ai_settings, screen, ship, bullets,stats,play_button,fleet,sb)
         if stats.game_active:
             # Check movement
             ship.update_position()
             # Update bullets position and remove ones past screen
-            af.update_bullets(ai_settings,screen,ship,bullets,fleet)
+            af.update_bullets(ai_settings,screen,ship,bullets,fleet,stats,sb)
             # Update Fleet position
             af.update_empire_ship(ship,ai_settings, fleet,bullets,stats,screen)
         # Refresh Screen
-        af.refresh_screen(ai_settings,screen,ship,fleet,bullets,play_button,stats)
+        af.refresh_screen(ai_settings,screen,ship,fleet,bullets,play_button,stats,sb)
 
 if __name__ == "__main__":
     run_game()
