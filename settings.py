@@ -9,7 +9,7 @@ class Settings():
         # If you don't want an image as your game's background, you can assign a rgb combination to it
         #self.bg_color = (230, 230, 230)
         # Load background image
-        self.bg_image = pygame.image.load("C:\\Users\\andre.dias\\OneDrive\\Programming\\Python\\AlienInvasion\\bgstar.bmp")
+        self.bg_image = pygame.image.load("bgstar.bmp")
         # Blasts info
         self.bullet_height = 30
         self.bullet_width = 3
