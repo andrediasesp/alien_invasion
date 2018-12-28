@@ -5,5 +5,7 @@ I tried to modify it in order to make it look like some sort of a Star Wars Vers
 ![](https://i.ibb.co/J3TRz3p/game-appearance.png)
 
 
-The sprites used were extracted from the following website:
+The sprites and fonts used were extracted from the following websites:
 _https://www.moddb.com/mods/endless-sky-star-wars-edition/images/ship-sprites1_
+https://www.dafont.com/pt/star-jedi.font
+
