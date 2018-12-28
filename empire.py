@@ -8,7 +8,7 @@ class Empire(Sprite):
         self.screen = screen
         self.ai_settings = ai_settings
         # Load an emprie ship
-        self.image = pygame.image.load("C:\\Users\\andre.dias\\OneDrive\\Programming\\Python\\AlienInvasion\\empire.bmp")
+        self.image = pygame.image.load("empire.bmp")
         self.rect  = self.image.get_rect()
         # Locate the empire ship at the top left corner of the screen
         self.rect.x = self.rect.width
